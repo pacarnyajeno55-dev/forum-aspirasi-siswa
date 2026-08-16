@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forum Aspirasi Siswa</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f4f7;color:#172033}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.hidden{display:none!important}
+
+
+/* HALAMAN AWAL */
+.landing{
+  min-height:100vh;
+  background:linear-gradient(160deg,#06374a,#071f31 60%,#0a4050);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  color:white;
+}
+.landing-box{
+  width:min(390px,100%);
+  text-align:center;
+  padding:35px 25px 40px;
+}
+.random-logo{
+  position:relative;
+  width:120px;
+  height:120px;
+  margin:0 auto 25px;
+  display:grid;
+  place-items:center;
+}
+.logo-circle{
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:48px;
+  background:linear-gradient(135deg,#6bd6d0,#315bea);
+  box-shadow:0 10px 35px #0005;
+  position:relative;
+  z-index:2;
+}
+.logo-ring{
+  position:absolute;
+  width:116px;
+  height:116px;
+  border:2px solid #ffffff55;
+  border-radius:50%;
+  transform:rotate(25deg);
+}
+.landing-box h1{
+  margin:0 0 8px;
+  font-size:30px;
+}
+.landing-box p{
+  margin:0 0 28px;
+  color:#b9d2da;
+}
+.landing-note{
+  max-width:310px;
+  margin:-8px auto 24px;
+  color:#a9c5ce;
+  font-size:17px;
+  line-height:1.5;
+  font-weight:600;
+}
+.landing-note b{color:#d9f7f2}
+.enter-btn{
+  border:0;
+  border-radius:13px;
+  background:white;
+  color:#0a3446;
+  width:100%;
+  padding:15px;
+  font-size:16px;
+  font-weight:900;
+  box-shadow:0 8px 25px #0003;
+}
+.enter-btn:hover{transform:translateY(-2px)}
+
+/* POPUP POINT */
+.point-popup{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) scale(.6);
+  opacity:0;
+  pointer-events:none;
+  z-index:999;
+  background:white;
+  color:#315bea;
+  border-radius:22px;
+  padding:25px 38px;
+  text-align:center;
+  box-shadow:0 18px 60px #0005;
+  transition:.22s ease;
+}
+.point-popup.show{
+  transform:translate(-50%,-50%) scale(1);
+  opacity:1;
+}
+.point-plus{
+  font-size:34px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+.point-text{
+  font-size:13px;
+  color:#777;
+  font-weight:bold;
+}.point-popup.negative{color:#c43d4b}
+.point-popup.negative .point-text{color:#777}
+
+.point-overlay{
+  position:fixed;
+  inset:0;
+  background:#0005;
+  z-index:998;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+}
+.point-overlay.show{
+  opacity:1;
+}
+
+/* LOGIN */
+.login-page{min-height:100vh;background:linear-gradient(180deg,#06374a,#082536);padding:25px 14px;color:white}
+.container{width:min(650px,100%);margin:auto}
+.top{text-align:center;padding:18px 0 25px}.top h1{margin:0 0 7px;font-size:29px}.top p{margin:0;color:#b7d1da}
+.roles{display:grid;gap:14px}
+.back-home{display:block;margin:18px auto 0;border:0;background:transparent;color:#c9dce2;font-size:13px;cursor:pointer;text-decoration:underline;padding:7px 10px}.back-home:hover{color:white}
+.role{width:100%;min-height:108px;border:1px solid #ffffff45;border-radius:27px;background:#47768755;color:white;display:flex;align-items:center;text-align:left;padding:16px 22px}
+.role:hover{background:#608f9f66}
+.icon{width:67px;height:67px;border-radius:18px;background:#ffffff12;display:grid;place-items:center;font-size:34px;margin-right:20px;flex-shrink:0}
+.role h2{margin:0 0 9px;font-size:19px}.role p{margin:0;color:#bfd2d9;font-weight:bold}
+.loginbox{margin:25px auto 0;background:white;color:#172033;border-radius:23px;padding:25px;box-shadow:0 15px 45px #0005}
+.loginbox h2{margin:0 0 5px}.sub{color:#777;font-size:13px;margin:0 0 18px}
+.selected{background:#edf1ff;color:#315bea;border-radius:10px;padding:10px;font-weight:bold;font-size:13px}
+.loginbox label{display:block;font-size:13px;font-weight:bold;margin:15px 0 7px}
+.loginbox input{width:100%;padding:13px;border:1px solid #d2d6de;border-radius:10px}
+.loginbtn{width:100%;margin-top:19px;padding:14px;border:0;border-radius:10px;background:#315bea;color:white;font-weight:bold}
+.back{width:100%;border:0;background:none;color:#315bea;font-weight:bold;font-size:11px;margin-top:11px}
+.demo{margin-top:15px;background:#f4f5f7;padding:10px;border-radius:9px;color:#777;font-size:11px}
+
+/* MAIN */
+.main-header{background:white;padding:17px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd}
+.main-header strong{font-size:19px}.logout{border:0;background:#f0f1f4;padding:9px 13px;border-radius:9px;font-weight:bold}
+.content{width:min(1050px,94%);margin:25px auto 45px}
+.welcome{margin-bottom:20px}.welcome h2{margin:0 0 5px}.welcome p{margin:0;color:#777;font-size:13px}
+
+/* STUDENT FORM */
+.card{background:white;border-radius:20px;padding:23px 20px;margin-bottom:20px;box-shadow:0 7px 25px #0000000d}
+.mode{display:flex;gap:10px;margin:10px 0 22px}.mode button{flex:1;padding:12px;border:1px solid #d8dbe2;background:white;border-radius:10px;font-weight:bold;color:#555}.mode .active{background:#edf1ff;color:#315bea;border-color:#315bea}
+.field{margin-bottom:18px}.label{display:block;font-weight:bold;margin-bottom:7px}
+.forminput,.formselect,.formtextarea{width:100%;padding:13px;border:1px solid #cfd3da;border-radius:10px;font-size:15px}.formtextarea{min-height:175px;resize:vertical}.forminput:disabled{background:#eee;color:#999}
+.submit{width:100%;padding:14px;border:0;border-radius:10px;background:#315bea;color:white;font-weight:bold}
+.result{display:none;margin-top:15px;padding:15px;background:#edf8f3;border:1px solid #c9e8da;border-radius:12px;text-align:center}.code{font-size:23px;font-weight:900;margin:8px}
+
+/* STATUS SISWA */
+.status-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.status-title h3{margin:0}
+.status-list{display:grid;gap:12px;margin-top:15px}
+.status-item{border:1px solid #e0e2e7;border-radius:14px;padding:15px}
+.status-item .code{font-size:13px;margin:0 0 8px;color:#777}.status-item p{margin:8px 0;font-size:13px}
+.badge{display:inline-block;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:bold}
+.dibaca{background:#e8f0ff;color:#315bea}.tindak{background:#fff1d6;color:#9a6400}.selesai{background:#e6f7ee;color:#198653}.diterima{background:#eee;color:#555}
+
+/* ADMIN */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat{background:white;border-radius:16px;padding:18px}.stat small{color:#777}.stat b{display:block;font-size:26px;margin-top:6px}
+.admin-tools{display:flex;gap:10px;margin-bottom:15px}.admin-tools select{padding:11px;border:1px solid #d0d4dc;border-radius:10px;background:white}
+.asp-list{display:grid;gap:14px}
+.asp-card{background:white;border-radius:17px;padding:18px;box-shadow:0 6px 22px #0000000b}
+.asp-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.asp-code{font-weight:900;font-size:13px;color:#777}
+.asp-card h3{margin:10px 0 6px;font-size:17px}.meta{color:#777;font-size:12px}.asp-card .message{margin:13px 0;line-height:1.5;font-size:14px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid #eee;padding-top:13px}.actions button{border:0;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:bold}
+.btn-read{background:#e8f0ff;color:#315bea}.btn-process{background:#fff1d6;color:#9a6400}.btn-done{background:#e6f7ee;color:#198653}
+.empty{background:white;padding:25px;text-align:center;border-radius:15px;color:#777}
+@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.asp-head{flex-direction:column}.role{min-height:100px}.icon{width:60px;height:60px;margin-right:15px}.role h2{font-size:17px}}
+</style>
+</head>
+<body>
+
+
+<!-- HALAMAN AWAL -->
+<section class="landing" id="landingPage">
+  <div class="landing-box">
+    <div class="random-logo">
+      <div class="logo-circle">✦</div>
+      <div class="logo-ring"></div>
+    </div>
+    <h1>Forum Aspirasi Siswa</h1>
+    <p class="landing-note">Aspirasi kalian adalah poin untuk keaktifan kelas kalian.</p>
+    <button class="enter-btn" onclick="openRoles()">Masuk</button>
+  </div>
+</section>
+
+<!-- PILIH ROLE + LOGIN -->
+<section class="login-page hidden" id="loginPage">
+<div class="container">
+<div class="top">
+<h1>Web Percobaan</h1>
+<p>Silakan pilih akun untuk masuk</p>
+</div>
+
+<button class="back-home" onclick="backToLanding()">← Kembali ke halaman masuk</button>
+
+<div class="roles" id="roles">
+<button class="role" onclick="chooseRole('ADMIN','Administrator','🧑‍💻')"><div class="icon">🧑‍💻</div><div><h2>ADMIN</h2><p>Administrator</p></div></button>
+<button class="role" onclick="chooseRole('GURU','Pengajar','👨‍🏫')"><div class="icon">👨‍🏫</div><div><h2>GURU</h2><p>Pengajar</p></div></button>
+<button class="role" onclick="chooseRole('KEPALA SEKOLAH','Monitoring','👔')"><div class="icon">👔</div><div><h2>KEPALA SEKOLAH</h2><p>Monitoring</p></div></button>
+<button class="role" onclick="chooseRole('SISWA','Peserta didik','🎒')"><div class="icon">🎒</div><div><h2>SISWA</h2><p>Peserta didik</p></div></button>
+<button class="role" onclick="chooseRole('SATGAS','Ketertiban','🛡️')"><div class="icon">🛡️</div><div><h2>SATGAS</h2><p>Ketertiban</p></div></button>
+<button class="role" onclick="chooseRole('TENDIK','Tenaga Kependidikan','🧑‍🏫')"><div class="icon">🧑‍🏫</div><div><h2>TENDIK</h2><p>Tenaga Kependidikan</p></div></button>
+</div>
+
+<div class="loginbox hidden" id="loginBox">
+<h2>Login</h2><p class="sub">Masukkan akun yang diberikan oleh sekolah.</p>
+<div class="selected" id="selectedRole"></div>
+<label>Username</label><input id="username" placeholder="Masukkan username">
+<label>Password</label><input id="password" type="password" placeholder="Masukkan password">
+<button class="loginbtn" onclick="login()">Masuk</button>
+<button class="back" onclick="backRoles()">← Kembali memilih akun</button>
+<div class="demo"><b>Prototype:</b> username <b>demo</b>, password <b>12345</b>. Versi asli seharusnya menggunakan akun yang dikelola sekolah.</div>
+</div>
+</div>
+</section>
+
+<!-- HALAMAN UTAMA -->
+<section id="mainPage" class="hidden">
+<header class="main-header">
+<strong>Forum Aspirasi Siswa</strong>
+<button class="logout" onclick="logout()">Kembali ke halaman login</button>
+</header>
+
+<div class="content">
+
+<!-- SISWA -->
+<div id="studentPage" class="hidden">
+<div class="welcome"><h2>Halo, Siswa</h2><p>Sampaikan aspirasi atau saran. Status kirimanmu bisa dipantau di bawah.</p></div>
+
+<div class="card">
+<h3 style="margin-top:0">Sampaikan Aspirasi</h3>
+<b style="font-size:13px">Kirim sebagai:</b>
+<div class="mode"><button id="namedBtn" class="active" onclick="setMode('named')">Dengan Identitas</button><button id="anonBtn" onclick="setMode('anon')">Anonim</button></div>
+<form id="aspForm">
+<div class="field"><label class="label">Nama</label><input class="forminput" id="nama" placeholder="Masukkan nama"></div>
+<div class="field"><label class="label">Kelas</label><input class="forminput" id="kelas" placeholder="Masukkan kelas"></div>
+<div class="field"><label class="label">Kategori</label><select class="formselect" id="kategori" required><option value="">Pilih kategori</option><option>Fasilitas</option><option>Pembelajaran</option><option>Kegiatan</option><option>Lingkungan</option><option>Organisasi</option><option>Lainnya</option></select></div>
+<div class="field"><label class="label">Aspirasi / Saran</label><textarea class="formtextarea" id="aspirasi" placeholder="Tuliskan aspirasi atau saran kamu..." required></textarea></div>
+<div class="field"><label class="label">Lampiran (opsional)</label><input type="file" accept="image/*,.pdf"></div>
+<button class="submit">Kirim Aspirasi</button>
+</form>
+<div class="result" id="result">Aspirasi berhasil dikirim.<br>Kode aspirasi:<div class="code" id="kode"></div></div>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">Cek Status Aspirasi</h3>
+<p style="color:#777;font-size:13px">Masukkan kode aspirasi yang kamu dapat setelah mengirim aspirasi.</p>
+<form id="statusForm" class="checkrow">
+<input id="statusCodeInput" placeholder="Contoh: ASP-7K4P2" autocomplete="off">
+<button type="submit">Cek Status</button>
+</form>
+<div id="lookupResult" style="display:none;margin-top:15px"></div>
+</div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminPage" class="hidden">
+<div class="welcome"><h2>Dashboard Admin</h2><p>Daftar aspirasi yang dikirim oleh siswa.</p></div>
+<div class="stats">
+<div class="stat"><small>Total Aspirasi</small><b id="total">3</b></div>
+<div class="stat"><small>Belum Dibaca</small><b id="unread">1</b></div>
+<div class="stat"><small>Ditindaklanjuti</small><b id="processed">1</b></div>
+</div>
+<div class="admin-tools">
+<select id="filter" onchange="renderAdmin()"><option value="SEMUA">Semua Status</option><option value="DITERIMA">Diterima</option><option value="DIBACA">Dibaca</option><option value="DITINDAKLANJUTI">Ditindaklanjuti</option><option value="SELESAI">Selesai</option></select>
+</div>
+<div class="asp-list" id="adminList"></div>
+</div>
+
+<!-- ROLE LAIN -->
+<div id="otherPage" class="hidden">
+<div class="card">
+<h2 id="otherTitle"></h2>
+<p style="color:#777">Halaman ini masih berupa prototype. Hak akses dan menu bisa dibuat berbeda sesuai kedudukan.</p>
+</div>
+</div>
+
+</div>
+</section>
+
+
+<script>
+let selectedRole="", mode="named";
+
+let aspirations=[
+  {
+    code:"ASP-7K4P2",
+    name:"Anonim",
+    kelas:"-",
+    category:"Fasilitas",
+    message:"Mohon beberapa fasilitas di kelas diperbaiki karena sudah kurang nyaman digunakan.",
+    status:"DITERIMA"
+  },
+  {
+    code:"ASP-2M8QX",
+    name:"Nadia",
+    kelas:"IX-2",
+    category:"Pembelajaran",
+    message:"Saran untuk menambah waktu diskusi pada beberapa pelajaran agar siswa lebih memahami materi.",
+    status:"DIBACA"
+  },
+  {
+    code:"ASP-5P3LK",
+    name:"Anonim",
+    kelas:"-",
+    category:"Lingkungan",
+    message:"Tempat sampah di beberapa area sekolah sebaiknya ditambah.",
+    status:"DITINDAKLANJUTI"
+  }
+];
+
+function openRoles(){
+  document.getElementById("landingPage").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+
+function chooseRole(role,desc,icon){
+  selectedRole=role;
+  document.getElementById("selectedRole").textContent =
+    icon+"  Login sebagai "+role+" — "+desc;
+
+  document.getElementById("loginBox").classList.remove("hidden");
+
+  // Geser ke kotak login supaya tidak tertutup keyboard di HP.
+  setTimeout(()=>{
+    document.getElementById("loginBox").scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  },100);
+}
+
+function backRoles(){
+  document.getElementById("loginBox").classList.add("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function backToLanding(){
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("landingPage").classList.remove("hidden");
+  document.getElementById("username").value="";
+  document.getElementById("password").value="";
+  selectedRole="";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function login(){
+  let u=document.getElementById("username").value.trim();
+  let p=document.getElementById("password").value;
+
+  if(!selectedRole){
+    alert("Pilih kedudukan terlebih dahulu.");
+    return;
+  }
+
+  if(!u || !p){
+    alert("Username dan password harus diisi.");
+    return;
+  }
+
+  if(u!=="demo" || p!=="12345"){
+    alert("Username atau password salah. Prototype: demo / 12345.");
+    return;
+  }
+
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("landingPage").classList.add("hidden");
+  document.getElementById("mainPage").classList.remove("hidden");
+
+  document.getElementById("studentPage").classList.add("hidden");
+  document.getElementById("adminPage").classList.add("hidden");
+  document.getElementById("otherPage").classList.add("hidden");
+
+  // Admin, guru, kepala sekolah, satgas, dan tendik
+  // memakai dashboard aspirasi yang sama.
+  if(selectedRole==="SISWA"){
+    document.getElementById("studentPage").classList.remove("hidden");
+  }else{
+    document.getElementById("adminPage").classList.remove("hidden");
+    renderAdmin();
+  }
+
+  window.scrollTo(0,0);
+}
+
+function logout(){
+  document.getElementById("mainPage").classList.add("hidden");
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+  document.getElementById("landingPage").classList.add("hidden");
+
+  document.getElementById("username").value="";
+  document.getElementById("password").value="";
+  selectedRole="";
+
+  window.scrollTo(0,0);
+}
+
+function showPointPopup(good){
+  const popup=document.getElementById("pointPopup");
+  const overlay=document.getElementById("pointOverlay");
+  const value=document.getElementById("pointValue");
+  const message=document.getElementById("pointMessage");
+
+  popup.classList.remove("negative");
+
+  if(good){
+    value.textContent="+1 Point";
+    message.textContent="Aspirasi yang baik. Terima kasih sudah menyampaikan pendapat!";
+  }else{
+    value.textContent="-1 Point";
+    message.textContent="Gunakan bahasa yang sopan saat menyampaikan aspirasi.";
+    popup.classList.add("negative");
+  }
+
+  popup.classList.add("show");
+  overlay.classList.add("show");
+
+  setTimeout(()=>{
+    popup.classList.remove("show");
+    overlay.classList.remove("show");
+  },1600);
+}
+
+function setMode(type){
+  mode=type;
+  let named=type==="named";
+
+  document.getElementById("namedBtn").classList.toggle("active",named);
+  document.getElementById("anonBtn").classList.toggle("active",!named);
+
+  document.getElementById("nama").disabled=!named;
+  document.getElementById("kelas").disabled=!named;
+
+  if(!named){
+    document.getElementById("nama").value="";
+    document.getElementById("kelas").value="";
+  }
+}
+
+/* Kata yang akan dianggap sebagai bahasa tidak sopan.
+   "ga becus" ditangani sebagai frasa. */
+const badWords=[
+  "idiot",
+  "tolol",
+  "goblok",
+  "anjing",
+  "anjir",
+  "dongo",
+  "ngentot",
+  "kontol",
+  "memek",
+  "titit",
+  "penis",
+  "vagina",
+  "puki",
+  "pepek",
+  "kelamin",
+  "ga becus"
+];
+
+function containsBadWord(message){
+  const normalized=message
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+
+  return badWords.some(word=>{
+    const escaped=word.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    const pattern=new RegExp("(^|\\s)"+escaped+"($|\\s)","i");
+    return pattern.test(normalized);
+  });
+}
+
+const aspForm=document.getElementById("aspForm");
+if(aspForm){
+aspForm.addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const nama=document.getElementById("nama");
+  const kelas=document.getElementById("kelas");
+  const kategori=document.getElementById("kategori");
+  const aspirasi=document.getElementById("aspirasi");
+  const kode=document.getElementById("kode");
+  const result=document.getElementById("result");
+
+  if(mode==="named" && (!nama.value.trim() || !kelas.value.trim())){
+    alert("Nama dan kelas harus diisi.");
+    return;
+  }
+
+  const message=aspirasi.value.trim();
+
+  if(!message){
+    alert("Aspirasi belum diisi.");
+    return;
+  }
+
+  const isBad=containsBadWord(message);
+
+  let c="ASP-"+Math.random()
+    .toString(36)
+    .substring(2,7)
+    .toUpperCase();
+
+  aspirations.unshift({
+    code:c,
+    name:mode==="anon" ? "Anonim" : nama.value.trim(),
+    kelas:mode==="anon" ? "-" : kelas.value.trim(),
+    category:kategori.value,
+    message:message,
+    status:"DITERIMA"
+  });
+
+  kode.textContent=c;
+  result.style.display="block";
+
+  showPointPopup(!isBad);
+
+  this.reset();
+  setMode("named");
+});
+}
+
+function badge(status){
+  const text={
+    DITERIMA:"DITERIMA",
+    DIBACA:"DIBACA",
+    DITINDAKLANJUTI:"DITINDAKLANJUTI",
+    SELESAI:"SELESAI"
+  }[status] || status;
+
+  const cls={
+    DITERIMA:"diterima",
+    DIBACA:"dibaca",
+    DITINDAKLANJUTI:"tindak",
+    SELESAI:"selesai"
+  }[status] || "diterima";
+
+  return '<span class="badge '+cls+'">'+text+'</span>';
+}
+
+/* Cek status hanya muncul setelah kode dimasukkan. */
+const statusForm=document.getElementById("statusForm");
+if(statusForm){
+statusForm.addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const code=document.getElementById("statusCodeInput").value.trim().toUpperCase();
+  const result=document.getElementById("lookupResult");
+
+  if(!code){
+    result.style.display="block";
+    result.innerHTML=
+      '<div class="status-item"><b>Masukkan kode aspirasi terlebih dahulu.</b></div>';
+    return;
+  }
+
+  const found=aspirations.find(a=>a.code.toUpperCase()===code);
+
+  if(!found){
+    result.style.display="block";
+    result.innerHTML=
+      '<div class="status-item"><b>Kode aspirasi tidak ditemukan.</b>'+
+      '<p style="color:#777">Periksa kembali kode yang kamu masukkan.</p></div>';
+    return;
+  }
+
+  result.style.display="block";
+  result.innerHTML=
+    '<div class="status-item">'+
+      '<div class="code">'+found.code+'</div>'+
+      badge(found.status)+
+      '<p><b>'+found.category+'</b></p>'+
+      '<p>'+found.message+'</p>'+
+    '</div>';
+});
+}
+
+function renderAdmin(){
+  const filter=document.getElementById("filter").value;
+
+  const list=filter==="SEMUA"
+    ? aspirations
+    : aspirations.filter(a=>a.status===filter);
+
+  document.getElementById("total").textContent=aspirations.length;
+
+  document.getElementById("unread").textContent=
+    aspirations.filter(a=>a.status==="DITERIMA").length;
+
+  document.getElementById("processed").textContent=
+    aspirations.filter(a=>a.status==="DITINDAKLANJUTI").length;
+
+  const box=document.getElementById("adminList");
+
+  if(!list.length){
+    box.innerHTML=
+      '<div class="empty">Tidak ada aspirasi pada status ini.</div>';
+    return;
+  }
+
+  box.innerHTML=list.map(a=>{
+    const safeCode=String(a.code).replace(/'/g,"\\'");
+    return `
+      <div class="asp-card">
+        <div class="asp-head">
+          <div>
+            <div class="asp-code">${a.code}</div>
+            <h3>${a.category}</h3>
+            <div class="meta">
+              Pengirim: ${a.name} &nbsp; • &nbsp; Kelas: ${a.kelas}
+            </div>
+          </div>
+          ${badge(a.status)}
+        </div>
+
+        <div class="message">${a.message}</div>
+
+        <div class="actions">
+          <button class="btn-read"
+            onclick="changeStatus('${safeCode}','DIBACA')">
+            Tandai Dibaca
+          </button>
+
+          <button class="btn-process"
+            onclick="changeStatus('${safeCode}','DITINDAKLANJUTI')">
+            Tindaklanjuti
+          </button>
+
+          <button class="btn-done"
+            onclick="changeStatus('${safeCode}','SELESAI')">
+            Selesaikan
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function changeStatus(code,status){
+  const a=aspirations.find(x=>x.code===code);
+
+  if(!a) return;
+
+  a.status=status;
+  renderAdmin();
+}
+</script>
+</body>
+</html>
